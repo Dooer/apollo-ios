@@ -134,7 +134,11 @@ public final class GraphQLResultReader {
   }
   
   private func parse<T: JSONDecodable>(value: JSONValue?, intoType type: T.Type = T.self) throws -> T? {
-    return try optional(value).map { try parse(value: $0) }
+    do {
+      return try optional(value).map { try parse(value: $0) }
+    } catch (JSONDecodingError.couldNotFindEnumValue(value: _, in: _)) {
+      return nil
+    }
   }
   
   private func parse<T: JSONDecodable>(value: JSONValue, intoType type: T.Type = T.self) throws -> T {
@@ -215,8 +219,12 @@ public final class GraphQLResultReader {
   
   private func parse<T: JSONDecodable>(array: [JSONValue], elementType: T.Type = T.self) throws -> [T?] {
     return try map(array: array) {
-      try optional($0).map {
-        try parse(value: $0, intoType: elementType)
+      try optional($0).flatMap {
+        do {
+          return try parse(value: $0, intoType: elementType)
+        } catch (JSONDecodingError.couldNotFindEnumValue(value: _, in: _)) {
+          return nil
+        }
       }
     }
   }
