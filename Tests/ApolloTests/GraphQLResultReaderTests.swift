@@ -36,7 +36,9 @@ class GraphQLResultReaderTests: XCTestCase {
       ("testGetOptionalListWithMissingKey", testGetOptionalListWithMissingKey),
       ("testGetListWithOptionalElements", testGetListWithOptionalElements),
       ("testGetOptionalListWithOptionalElements", testGetOptionalListWithOptionalElements),
-      ("testGetValueWithMissingEnumCase", testGetValueWithMissingEnumCase)
+      ("testGetValueWithMissingEnumCase", testGetValueWithMissingEnumCase),
+      ("testGetListWithOptionalEnumsUsingMissingCases", testGetListWithOptionalEnumsUsingMissingCases),
+      ("testGetOptionalEnumValueWithMissingCase", testGetOptionalEnumValueWithMissingCase)
     ]
   }
   
@@ -226,12 +228,24 @@ class GraphQLResultReaderTests: XCTestCase {
     let reader = read(from: ["episode": "NOT AN EPISODE"])
     
     XCTAssertThrowsError(try with(returnType: Episode.self, reader.value(for: Field(responseName: "episode")))) { (error) in
-      if let error = error as? GraphQLResultError, case JSONDecodingError.couldNotConvert(let value, let expectedType) = error.underlying {
+      if let error = error as? GraphQLResultError, case JSONDecodingError.couldNotFindEnumValue(let value, let expectedType) = error.underlying {
         XCTAssertEqual(value as? String , "NOT AN EPISODE")
         XCTAssert(expectedType == Episode.self)
       } else {
         XCTFail("Unexpected error: \(error)")
       }
     }
+  }
+  
+  func testGetListWithOptionalEnumsUsingMissingCases() throws {
+    let reader = read(from: ["appearsIn": ["NEWHOPE", "EMPIRE", "NOT AN EPISODE"]])
+    let value: [Episode?] = try reader.list(for: Field(responseName: "appearsIn"))
+    XCTAssertEqual(value, [.newhope, .empire, nil])
+  }
+  
+  func testGetOptionalEnumValueWithMissingCase() throws {
+    let reader = read(from: ["appearsIn": "NOT AN EPISODE"])
+    let value: Episode? = try reader.optionalValue(for: Field(responseName: "appearsIn"))
+    XCTAssertNil(value)
   }
 }

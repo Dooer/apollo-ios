@@ -14,6 +14,7 @@ public enum JSONDecodingError: Error, LocalizedError {
   case missingValue
   case nullValue
   case couldNotConvert(value: Any, to: Any.Type)
+  case couldNotFindEnumValue(value: Any, in: Any.Type)
   
   public var errorDescription: String? {
     switch self {
@@ -23,6 +24,8 @@ public enum JSONDecodingError: Error, LocalizedError {
       return "Unexpected null value"
     case .couldNotConvert(let value, let expectedType):
       return "Could not convert \"\(value)\" to \(expectedType)"
+    case .couldNotFindEnumValue(let value, let expectedType):
+      return "Could not find enum value \"\(value)\" in \(expectedType)"
     }
   }
 }

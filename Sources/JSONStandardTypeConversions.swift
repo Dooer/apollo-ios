@@ -71,7 +71,7 @@ extension RawRepresentable where RawValue: JSONDecodable {
     if let tempSelf = Self(rawValue: rawValue) {
       self = tempSelf
     } else {
-      throw JSONDecodingError.couldNotConvert(value: value, to: Self.self)
+      throw JSONDecodingError.couldNotFindEnumValue(value: value, in: Self.self)
     }
   }
 }
