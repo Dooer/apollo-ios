@@ -60,8 +60,8 @@ public final class CreateReviewForEpisodeMutation: GraphQLMutation {
 
     public struct CreateReview: GraphQLMappable {
       public let __typename: String
-      public let stars: Int
-      public let commentary: String?
+      public let stars: Int /// The number of stars this review gave, 1-5
+      public let commentary: String? /// Comment about the movie
 
       public init(reader: GraphQLResultReader) throws {
         __typename = try reader.value(for: Field(responseName: "__typename"))
@@ -93,8 +93,8 @@ public final class CreateAwesomeReviewMutation: GraphQLMutation {
 
     public struct CreateReview: GraphQLMappable {
       public let __typename: String
-      public let stars: Int
-      public let commentary: String?
+      public let stars: Int /// The number of stars this review gave, 1-5
+      public let commentary: String? /// Comment about the movie
 
       public init(reader: GraphQLResultReader) throws {
         __typename = try reader.value(for: Field(responseName: "__typename"))
@@ -137,8 +137,8 @@ public final class HeroAndFriendsNamesQuery: GraphQLQuery {
 
     public struct Hero: GraphQLMappable {
       public let __typename: String
-      public let name: String
-      public let friends: [Friend?]?
+      public let name: String /// The name of the character
+      public let friends: [Friend?]? /// The friends of the character, or an empty list if they have none
 
       public init(reader: GraphQLResultReader) throws {
         __typename = try reader.value(for: Field(responseName: "__typename"))
@@ -148,7 +148,7 @@ public final class HeroAndFriendsNamesQuery: GraphQLQuery {
 
       public struct Friend: GraphQLMappable {
         public let __typename: String
-        public let name: String
+        public let name: String /// The name of the character
 
         public init(reader: GraphQLResultReader) throws {
           __typename = try reader.value(for: Field(responseName: "__typename"))
@@ -193,9 +193,9 @@ public final class HeroAndFriendsNamesWithIDsQuery: GraphQLQuery {
 
     public struct Hero: GraphQLMappable {
       public let __typename: String
-      public let id: GraphQLID
-      public let name: String
-      public let friends: [Friend?]?
+      public let id: GraphQLID /// The ID of the character
+      public let name: String /// The name of the character
+      public let friends: [Friend?]? /// The friends of the character, or an empty list if they have none
 
       public init(reader: GraphQLResultReader) throws {
         __typename = try reader.value(for: Field(responseName: "__typename"))
@@ -206,8 +206,8 @@ public final class HeroAndFriendsNamesWithIDsQuery: GraphQLQuery {
 
       public struct Friend: GraphQLMappable {
         public let __typename: String
-        public let id: GraphQLID
-        public let name: String
+        public let id: GraphQLID /// The ID of the character
+        public let name: String /// The name of the character
 
         public init(reader: GraphQLResultReader) throws {
           __typename = try reader.value(for: Field(responseName: "__typename"))
@@ -252,9 +252,9 @@ public final class HeroAndFriendsNamesWithIdForParentOnlyQuery: GraphQLQuery {
 
     public struct Hero: GraphQLMappable {
       public let __typename: String
-      public let id: GraphQLID
-      public let name: String
-      public let friends: [Friend?]?
+      public let id: GraphQLID /// The ID of the character
+      public let name: String /// The name of the character
+      public let friends: [Friend?]? /// The friends of the character, or an empty list if they have none
 
       public init(reader: GraphQLResultReader) throws {
         __typename = try reader.value(for: Field(responseName: "__typename"))
@@ -265,7 +265,7 @@ public final class HeroAndFriendsNamesWithIdForParentOnlyQuery: GraphQLQuery {
 
       public struct Friend: GraphQLMappable {
         public let __typename: String
-        public let name: String
+        public let name: String /// The name of the character
 
         public init(reader: GraphQLResultReader) throws {
           __typename = try reader.value(for: Field(responseName: "__typename"))
@@ -296,7 +296,7 @@ public final class HeroAppearsInQuery: GraphQLQuery {
 
     public struct Hero: GraphQLMappable {
       public let __typename: String
-      public let appearsIn: [Episode?]
+      public let appearsIn: [Episode?] /// The movies this character appears in
 
       public init(reader: GraphQLResultReader) throws {
         __typename = try reader.value(for: Field(responseName: "__typename"))
@@ -342,7 +342,7 @@ public final class HeroDetailsQuery: GraphQLQuery {
 
     public struct Hero: GraphQLMappable {
       public let __typename: String
-      public let name: String
+      public let name: String /// The name of the character
 
       public let asHuman: AsHuman?
       public let asDroid: AsDroid?
@@ -359,8 +359,8 @@ public final class HeroDetailsQuery: GraphQLQuery {
         public static let possibleTypes = ["Human"]
 
         public let __typename: String
-        public let name: String
-        public let height: Double?
+        public let name: String /// What this human calls themselves
+        public let height: Double? /// Height in the preferred unit, default is meters
 
         public init(reader: GraphQLResultReader) throws {
           __typename = try reader.value(for: Field(responseName: "__typename"))
@@ -373,8 +373,8 @@ public final class HeroDetailsQuery: GraphQLQuery {
         public static let possibleTypes = ["Droid"]
 
         public let __typename: String
-        public let name: String
-        public let primaryFunction: String?
+        public let name: String /// What others call this droid
+        public let primaryFunction: String? /// This droid's primary function
 
         public init(reader: GraphQLResultReader) throws {
           __typename = try reader.value(for: Field(responseName: "__typename"))
@@ -460,7 +460,7 @@ public final class HeroNameQuery: GraphQLQuery {
 
     public struct Hero: GraphQLMappable {
       public let __typename: String
-      public let name: String
+      public let name: String /// The name of the character
 
       public init(reader: GraphQLResultReader) throws {
         __typename = try reader.value(for: Field(responseName: "__typename"))
@@ -499,8 +499,8 @@ public final class HeroNameWithIdQuery: GraphQLQuery {
 
     public struct Hero: GraphQLMappable {
       public let __typename: String
-      public let id: GraphQLID
-      public let name: String
+      public let id: GraphQLID /// The ID of the character
+      public let name: String /// The name of the character
 
       public init(reader: GraphQLResultReader) throws {
         __typename = try reader.value(for: Field(responseName: "__typename"))
@@ -541,7 +541,7 @@ public final class HeroNameConditionalInclusionQuery: GraphQLQuery {
 
     public struct Hero: GraphQLMappable {
       public let __typename: String
-      public let name: String?
+      public let name: String? /// The name of the character
 
       public init(reader: GraphQLResultReader) throws {
         __typename = try reader.value(for: Field(responseName: "__typename"))
@@ -581,7 +581,7 @@ public final class HeroNameConditionalExclusionQuery: GraphQLQuery {
 
     public struct Hero: GraphQLMappable {
       public let __typename: String
-      public let name: String?
+      public let name: String? /// The name of the character
 
       public init(reader: GraphQLResultReader) throws {
         __typename = try reader.value(for: Field(responseName: "__typename"))
@@ -641,7 +641,7 @@ public final class HeroParentTypeDependentFieldQuery: GraphQLQuery {
 
     public struct Hero: GraphQLMappable {
       public let __typename: String
-      public let name: String
+      public let name: String /// The name of the character
 
       public let asHuman: AsHuman?
       public let asDroid: AsDroid?
@@ -658,8 +658,8 @@ public final class HeroParentTypeDependentFieldQuery: GraphQLQuery {
         public static let possibleTypes = ["Human"]
 
         public let __typename: String
-        public let name: String
-        public let friends: [Friend?]?
+        public let name: String /// What this human calls themselves
+        public let friends: [Friend?]? /// This human's friends, or an empty list if they have none
 
         public init(reader: GraphQLResultReader) throws {
           __typename = try reader.value(for: Field(responseName: "__typename"))
@@ -669,7 +669,7 @@ public final class HeroParentTypeDependentFieldQuery: GraphQLQuery {
 
         public struct Friend: GraphQLMappable {
           public let __typename: String
-          public let name: String
+          public let name: String /// The name of the character
 
           public let asHuman: AsHuman?
 
@@ -684,8 +684,8 @@ public final class HeroParentTypeDependentFieldQuery: GraphQLQuery {
             public static let possibleTypes = ["Human"]
 
             public let __typename: String
-            public let name: String
-            public let height: Double?
+            public let name: String /// What this human calls themselves
+            public let height: Double? /// Height in the preferred unit, default is meters
 
             public init(reader: GraphQLResultReader) throws {
               __typename = try reader.value(for: Field(responseName: "__typename"))
@@ -700,8 +700,8 @@ public final class HeroParentTypeDependentFieldQuery: GraphQLQuery {
         public static let possibleTypes = ["Droid"]
 
         public let __typename: String
-        public let name: String
-        public let friends: [Friend?]?
+        public let name: String /// What others call this droid
+        public let friends: [Friend?]? /// This droid's friends, or an empty list if they have none
 
         public init(reader: GraphQLResultReader) throws {
           __typename = try reader.value(for: Field(responseName: "__typename"))
@@ -711,7 +711,7 @@ public final class HeroParentTypeDependentFieldQuery: GraphQLQuery {
 
         public struct Friend: GraphQLMappable {
           public let __typename: String
-          public let name: String
+          public let name: String /// The name of the character
 
           public let asHuman: AsHuman?
 
@@ -726,8 +726,8 @@ public final class HeroParentTypeDependentFieldQuery: GraphQLQuery {
             public static let possibleTypes = ["Human"]
 
             public let __typename: String
-            public let name: String
-            public let height: Double?
+            public let name: String /// What this human calls themselves
+            public let height: Double? /// Height in the preferred unit, default is meters
 
             public init(reader: GraphQLResultReader) throws {
               __typename = try reader.value(for: Field(responseName: "__typename"))
@@ -791,7 +791,7 @@ public final class HeroTypeDependentAliasedFieldQuery: GraphQLQuery {
         public static let possibleTypes = ["Human"]
 
         public let __typename: String
-        public let property: String?
+        public let property: String? /// The home planet of the human, or null if unknown
 
         public init(reader: GraphQLResultReader) throws {
           __typename = try reader.value(for: Field(responseName: "__typename"))
@@ -803,7 +803,7 @@ public final class HeroTypeDependentAliasedFieldQuery: GraphQLQuery {
         public static let possibleTypes = ["Droid"]
 
         public let __typename: String
-        public let property: String?
+        public let property: String? /// This droid's primary function
 
         public init(reader: GraphQLResultReader) throws {
           __typename = try reader.value(for: Field(responseName: "__typename"))
@@ -835,8 +835,8 @@ public final class HumanWithNullMassQuery: GraphQLQuery {
 
     public struct Human: GraphQLMappable {
       public let __typename: String
-      public let name: String
-      public let mass: Double?
+      public let name: String /// What this human calls themselves
+      public let mass: Double? /// Mass in kilograms, or null if unknown
 
       public init(reader: GraphQLResultReader) throws {
         __typename = try reader.value(for: Field(responseName: "__typename"))
@@ -873,7 +873,7 @@ public final class SameHeroTwiceQuery: GraphQLQuery {
 
     public struct Hero: GraphQLMappable {
       public let __typename: String
-      public let name: String
+      public let name: String /// The name of the character
 
       public init(reader: GraphQLResultReader) throws {
         __typename = try reader.value(for: Field(responseName: "__typename"))
@@ -883,7 +883,7 @@ public final class SameHeroTwiceQuery: GraphQLQuery {
 
     public struct R2: GraphQLMappable {
       public let __typename: String
-      public let appearsIn: [Episode?]
+      public let appearsIn: [Episode?] /// The movies this character appears in
 
       public init(reader: GraphQLResultReader) throws {
         __typename = try reader.value(for: Field(responseName: "__typename"))
@@ -914,7 +914,7 @@ public final class StarshipQuery: GraphQLQuery {
 
     public struct Starship: GraphQLMappable {
       public let __typename: String
-      public let name: String
+      public let name: String /// The name of the starship
       public let coordinates: [[Double]]?
 
       public init(reader: GraphQLResultReader) throws {
@@ -952,7 +952,7 @@ public final class TwoHeroesQuery: GraphQLQuery {
 
     public struct R2: GraphQLMappable {
       public let __typename: String
-      public let name: String
+      public let name: String /// The name of the character
 
       public init(reader: GraphQLResultReader) throws {
         __typename = try reader.value(for: Field(responseName: "__typename"))
@@ -962,7 +962,7 @@ public final class TwoHeroesQuery: GraphQLQuery {
 
     public struct Luke: GraphQLMappable {
       public let __typename: String
-      public let name: String
+      public let name: String /// The name of the character
 
       public init(reader: GraphQLResultReader) throws {
         __typename = try reader.value(for: Field(responseName: "__typename"))
@@ -990,7 +990,7 @@ public struct HeroDetails: GraphQLNamedFragment {
   public static let possibleTypes = ["Human", "Droid"]
 
   public let __typename: String
-  public let name: String
+  public let name: String /// The name of the character
 
   public let asHuman: AsHuman?
   public let asDroid: AsDroid?
@@ -1007,8 +1007,8 @@ public struct HeroDetails: GraphQLNamedFragment {
     public static let possibleTypes = ["Human"]
 
     public let __typename: String
-    public let name: String
-    public let height: Double?
+    public let name: String /// What this human calls themselves
+    public let height: Double? /// Height in the preferred unit, default is meters
 
     public init(reader: GraphQLResultReader) throws {
       __typename = try reader.value(for: Field(responseName: "__typename"))
@@ -1021,8 +1021,8 @@ public struct HeroDetails: GraphQLNamedFragment {
     public static let possibleTypes = ["Droid"]
 
     public let __typename: String
-    public let name: String
-    public let primaryFunction: String?
+    public let name: String /// What others call this droid
+    public let primaryFunction: String? /// This droid's primary function
 
     public init(reader: GraphQLResultReader) throws {
       __typename = try reader.value(for: Field(responseName: "__typename"))
