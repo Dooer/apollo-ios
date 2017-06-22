@@ -172,42 +172,42 @@ public final class GraphQLResultReader {
   // MARK: Parsing scalar arrays
   
   private func parse<T: JSONDecodable>(array: JSONValue?, elementType: T.Type = T.self) throws -> [T] {
-    return try parse(array: cast(required(array)), elementType: elementType)
+    return try parse(array: castArray(required(array)), elementType: elementType)
   }
   
   private func parse<T: JSONDecodable>(array: JSONValue?, elementType: T.Type = T.self) throws -> [T?] {
-    return try parse(array: cast(required(array)), elementType: elementType)
+    return try parse(array: castArray(required(array)), elementType: elementType)
   }
   
   private func parse<T: JSONDecodable>(array: JSONValue?, elementType: T.Type = T.self) throws -> [T]? {
     return try optional(array).map {
-      try parse(array: cast($0), elementType: elementType)
+      try parse(array: castArray($0), elementType: elementType)
     }
   }
   
   private func parse<T: JSONDecodable>(array: JSONValue?, elementType: T.Type = T.self) throws -> [T?]? {
     return try optional(array).map {
-      try parse(array: cast($0), elementType: elementType)
+      try parse(array: castArray($0), elementType: elementType)
     }
   }
   
   private func parse<T: JSONDecodable>(array: JSONValue?, elementType: T.Type = T.self) throws -> [[T]] {
-    return try parse(array: cast(required(array)), elementType: elementType)
+    return try parse(array: castArray(required(array)), elementType: elementType)
   }
   
   private func parse<T: JSONDecodable>(array: JSONValue?, elementType: T.Type = T.self) throws -> [[T?]] {
-    return try parse(array: cast(required(array)), elementType: elementType)
+    return try parse(array: castArray(required(array)), elementType: elementType)
   }
   
   private func parse<T: JSONDecodable>(array: JSONValue?, elementType: T.Type = T.self) throws -> [[T]]? {
     return try optional(array).map {
-      return try parse(array: cast(required($0)), elementType: elementType)
+      return try parse(array: castArray(required($0)), elementType: elementType)
     }
   }
   
   private func parse<T: JSONDecodable>(array: JSONValue?, elementType: T.Type = T.self) throws -> [[T?]]? {
     return try optional(array).map {
-      return try parse(array: cast(required($0)), elementType: elementType)
+      return try parse(array: castArray(required($0)), elementType: elementType)
     }
   }
   
@@ -231,7 +231,7 @@ public final class GraphQLResultReader {
   
   private func parse<T: JSONDecodable>(array: [JSONValue], elementType: T.Type = T.self) throws -> [[T]] {
     return try map(array: array) {
-      try map(array: cast(required($0))) {
+      try map(array: castArray(required($0))) {
         try parse(value: required($0), intoType: elementType)
       }
     }
@@ -239,7 +239,7 @@ public final class GraphQLResultReader {
   
   private func parse<T: JSONDecodable>(array: [JSONValue], elementType: T.Type = T.self) throws -> [[T?]] {
     return try map(array: array) {
-      try map(array: cast(required($0))) {
+      try map(array: castArray(required($0))) {
         try parse(value: optional($0), intoType: elementType)
       }
     }
