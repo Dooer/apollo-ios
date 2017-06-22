@@ -77,6 +77,13 @@ func cast<T>(_ value: JSONValue) throws -> T {
   return castValue
 }
 
+func castArray<T>(_ value: JSONValue) throws -> [T] {
+    guard let castValue = value as? [T] else {
+        throw JSONDecodingError.couldNotConvert(value: value, to: [T].self)
+    }
+    return castValue
+}
+
 func equals(_ lhs: Any, _ rhs: Any) -> Bool {
   if let lhs = lhs as? Reference, let rhs = rhs as? Reference {
     return lhs == rhs

@@ -248,38 +248,38 @@ public final class GraphQLResultReader {
   // MARK: Parsing object arrays
   
   private func parse<T: GraphQLMappable>(array: JSONValue?, elementType: T.Type = T.self) throws -> [T] {
-    return try parse(array: cast(required(array)), elementType: elementType)
+    return try parse(array: castArray(required(array)), elementType: elementType)
   }
   
   private func parse<T: GraphQLMappable>(array: JSONValue?, elementType: T.Type = T.self) throws -> [T?] {
-    return try parse(array: cast(required(array)), elementType: elementType)
+    return try parse(array: castArray(required(array)), elementType: elementType)
   }
   
   private func parse<T: GraphQLMappable>(array: JSONValue?, elementType: T.Type = T.self) throws -> [T]? {
-    return try optional(array).map { try parse(array: cast($0), elementType: elementType) }
+    return try optional(array).map { try parse(array: castArray($0), elementType: elementType) }
   }
   
   private func parse<T: GraphQLMappable>(array: JSONValue?, elementType: T.Type = T.self) throws -> [T?]? {
-    return try optional(array).map { try parse(array: cast($0), elementType: elementType) }
+    return try optional(array).map { try parse(array: castArray($0), elementType: elementType) }
   }
   
   private func parse<T: GraphQLMappable>(array: JSONValue?, elementType: T.Type = T.self) throws -> [[T]] {
-    return try parse(array: cast(required(array)), elementType: elementType)
+    return try parse(array: castArray(required(array)), elementType: elementType)
   }
   
   private func parse<T: GraphQLMappable>(array: JSONValue?, elementType: T.Type = T.self) throws -> [[T?]] {
-    return try parse(array: cast(required(array)), elementType: elementType)
+    return try parse(array: castArray(required(array)), elementType: elementType)
   }
   
   private func parse<T: GraphQLMappable>(array: JSONValue?, elementType: T.Type = T.self) throws -> [[T]]? {
     return try optional(array).map {
-      return try parse(array: cast(required($0)), elementType: elementType)
+      return try parse(array: castArray(required($0)), elementType: elementType)
     }
   }
   
   private func parse<T: GraphQLMappable>(array: JSONValue?, elementType: T.Type = T.self) throws -> [[T?]]? {
     return try optional(array).map {
-      return try parse(array: cast(required($0)), elementType: elementType)
+      return try parse(array: castArray(required($0)), elementType: elementType)
     }
   }
   
@@ -297,7 +297,7 @@ public final class GraphQLResultReader {
   
   private func parse<T: GraphQLMappable>(array: [JSONObject], elementType: T.Type = T.self) throws -> [[T]] {
     return try map(array: array) {
-      try map(array: cast(required($0))) {
+      try map(array: castArray(required($0))) {
         try parse(object: required($0), intoType: elementType)
       }
     }
@@ -305,7 +305,7 @@ public final class GraphQLResultReader {
   
   private func parse<T: GraphQLMappable>(array: [JSONObject], elementType: T.Type = T.self) throws -> [[T?]] {
     return try map(array: array) {
-      try map(array: cast(required($0))) {
+      try map(array: castArray(required($0))) {
         try parse(object: optional($0), intoType: elementType)
       }
     }
