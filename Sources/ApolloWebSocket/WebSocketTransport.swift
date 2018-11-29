@@ -55,8 +55,11 @@ public class WebSocketTransport: NetworkTransport, WebSocketDelegate {
     self.reconnectionInterval = reconnectionInterval
 
     self.websocket = WebSocketTransport.provider.init(request: request, protocols: protocols)
-    self.websocket.delegate = self
-    self.websocket.connect()
+    if let socket = websocket as? ApolloWebSocket {
+        socket.delegate = self
+    } else {
+        websocket.delegate = self
+    }
   }
   
   public func send<Operation>(operation: Operation, completionHandler: @escaping (_ response: GraphQLResponse<Operation>?, _ error: Error?) -> Void) -> Cancellable {
@@ -74,9 +77,24 @@ public class WebSocketTransport: NetworkTransport, WebSocketDelegate {
     }
     
   }
+
+  public func connect() {
+    guard !isConnected() else { return }
+    if let socket = websocket as? ApolloWebSocket {
+        socket.connect()
+    } else {
+        websocket.connect()
+    }
+  }
   
   public func isConnected() -> Bool {
-    return websocket.isConnected
+    // If not doing this cast, runtime will check the wrong memory address for `isConnected`.
+    // Resulting in a `EXC_BAD_ACCESS`.
+    if let socket = websocket as? ApolloWebSocket {
+        return socket.isConnected
+    } else {
+        return websocket.isConnected
+    }
   }
   
   private func processMessage(socket: WebSocketClient, text: String) {
@@ -172,7 +190,11 @@ public class WebSocketTransport: NetworkTransport, WebSocketDelegate {
     
     if reconnect {
       DispatchQueue.main.asyncAfter(deadline: .now() + reconnectionInterval) {
-        self.websocket.connect();
+        if let socket = self.websocket as? ApolloWebSocket {
+            socket.connect()
+        } else {
+            self.websocket.connect()
+        }
       }
     }
   }
@@ -205,8 +227,12 @@ public class WebSocketTransport: NetworkTransport, WebSocketDelegate {
   }
   
   private func write(_ str: String, force forced: Bool = false, id: Int? = nil) {
-    if websocket.isConnected && (acked || forced) {
-      websocket.write(string: str)
+    if isConnected() && (acked || forced) {
+        if let socket = websocket as? ApolloWebSocket {
+            socket.write(string: str)
+        } else {
+            websocket.write(string: str)
+        }
     } else {
       // using sequence number to make sure that the queue is processed correctly
       // either using the earlier assigned id or with the next higher key
@@ -221,8 +247,13 @@ public class WebSocketTransport: NetworkTransport, WebSocketDelegate {
   }
   
   deinit {
-    websocket.disconnect()
-    websocket.delegate = nil
+    if let socket = websocket as? ApolloWebSocket {
+        socket.disconnect()
+        socket.delegate = nil
+    } else {
+        websocket.disconnect()
+        websocket.delegate = nil
+    }
   }
   
   fileprivate func nextSequenceNumber() -> Int {
